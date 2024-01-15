@@ -16,7 +16,7 @@ const onClickButton=(index)=>{
       <ul>
         {
           menu.map((el, index)=>(
-            <li onClick={()=>onClickButton(index) } className={choice==index ? 'active': '' }>{el}</li>
+            <li key={index} onClick={()=>onClickButton(index) } className={choice==index ? 'active': '' }>{el}</li>
           ))
         }
       </ul>

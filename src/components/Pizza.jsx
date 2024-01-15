@@ -15,19 +15,19 @@ function Pizza(props){
       src={props.imageUrl}
       alt="Pizza"
     />
-    <h4 className="pizza-block__title">{props.title}</h4>
+    <h4 className="pizza-block__title">{props.name}</h4>
     <div className="pizza-block__selector">
       <ul>
         {
           props.types.map((el, index) => (
-            <li onClick={() => changeIndex(index)}  className={pizzaIndex==index ? 'active': ''}>{typePizza[index]}</li>
+            <li key={index} onClick={() => changeIndex(index)}  className={pizzaIndex===index ? 'active': ''}>{typePizza[index]}</li>
           ))
         }
       </ul>
       <ul>
         {
           props.sizes.map((el, index) =>(
-            <li onClick={() => changeSize(index)}  className={pizzaSize==index ? 'active': ''}>{el} см.</li>
+            <li key={index} onClick={() => changeSize(index)}  className={pizzaSize===index ? 'active': ''}>{el} см.</li>
           ))
         }
       </ul>
