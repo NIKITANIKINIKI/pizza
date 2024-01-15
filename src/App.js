@@ -40,7 +40,10 @@ function App() {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            {items.map((el, index)=>(
+            {endLoad ? [...new Array(8)].map((_ , index ) => (
+              <Skeleton key={index}/>
+            )):
+            items.map((el, index)=>(
               <Pizza key={index} {...el}/>
             ))}
           </div>
