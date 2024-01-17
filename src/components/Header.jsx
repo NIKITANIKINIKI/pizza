@@ -1,13 +1,17 @@
+import { Link } from "react-router-dom";
+
 function Header() {
   return (
-    <div className="header__logo">
-      <img width="38" src="./img/pizza-logo.svg" alt="Pizza logo" />
-      <div>
-        <h1>React Pizza</h1>
-        <p>самая вкусная пицца во вселенной</p>
+    <Link to='/'>
+      <div className="header__logo">
+        <img width="38" src="./img/pizza-logo.svg" alt="Pizza logo" />
+        <div>
+          <h1>React Pizza</h1>
+          <p>самая вкусная пицца во вселенной</p>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
-export default Header
+export default Header;
