@@ -8,7 +8,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
+
+    @media(max-width: 510px){
+      flex-direction: column;
+      
+      .header__cart{
+        margin-top: 20px;
+      }
+  }}
 
   &__logo {
     display: flex;
@@ -27,6 +34,12 @@
 
     p {
       color: #7b7b7b;
+    }
+
+    @media(max-width:525px){
+      p{
+        display: none;
+      }
     }
   }
 }

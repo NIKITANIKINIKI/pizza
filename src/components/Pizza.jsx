@@ -9,7 +9,8 @@ function Pizza(props){
 
   const typePizza=['тонкое', 'традиционная']
 
-    return(<div className="pizza-block">
+    return(<div className="pizza-block-center">
+      <div className="pizza-block">
     <img
       className="pizza-block__image"
       src={props.imageUrl}
@@ -51,7 +52,8 @@ function Pizza(props){
         <i>{counter}</i>
       </div>
     </div>
-  </div>)
+  </div>
+    </div>)
 }
 
 export default Pizza
