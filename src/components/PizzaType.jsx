@@ -1,22 +1,15 @@
 import React from "react";
 
-function PizzaType() {
+function PizzaType(props) {
 
 const menu=['Все','Мясные','Вегетарианская','Гриль','Острые','Закрытые']
-
-
-const [choice, changeChoice]=React.useState(0)
-
-const onClickButton=(index)=>{
-  changeChoice(index)
-}
 
   return (
     <div className="categories">
       <ul>
         {
           menu.map((el, index)=>(
-            <li key={index} onClick={()=>onClickButton(index) } className={choice==index ? 'active': '' }>{el}</li>
+            <li key={index} onClick={()=>props.onClickButton(index) } className={props.choice==index ? 'active': '' }>{el}</li>
           ))
         }
       </ul>

@@ -1,17 +1,19 @@
 import React from "react";
 
-function Sort() {
-  const sortItems=['популярности','цене','алфавиту']
-  
+function Sort({activeObj, changeActive}) {  
   const [popup, popupToShow]=React.useState(false)
-  const [activeValue,changeActive]=React.useState(0)
+  
 
   const onClickItem=(index)=>{
-    changeActive(index)
+    changeActive(sortItems[index])
     popupToShow(false)
   }
 
-
+  const sortItems=[
+    {id:0,name:'популярности', sortEl:'rating'},
+    {id:1, name: 'цена', sortEl:'price'},
+    {id: 2,name: 'алфавиту', sortEl:'name'}
+  ]
 
   return (
     <div className="sort">
@@ -29,14 +31,14 @@ function Sort() {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() =>popupToShow(!popup) } >{sortItems[activeValue]}</span>
+        <span onClick={() =>popupToShow(!popup) } >{activeObj.name}</span>
       </div>
       { popup && (
         <div className="sort__popup">
         <ul>
           {
             sortItems.map((el, index) =>(
-              <li key={index} onClick={() => onClickItem(index)} className={activeValue===index ? 'active' : ''}>{el}</li>
+              <li key={index} onClick={() => onClickItem(index)} className={activeObj.id===index ? 'active' : ''}>{el.name}</li>
             ))
           }
         </ul>
