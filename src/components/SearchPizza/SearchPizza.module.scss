@@ -1,0 +1,36 @@
+.root {
+  position: relative;
+
+  input {
+    padding: 10px 35px;
+    width: 300px;
+    font-size: 16px;
+    border: 1px solid rgb(35, 29, 29);
+    border-radius: 10px;
+  }
+  .search {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    top: 10px;
+    left: 3px;
+    opacity: 0.5;
+  }
+
+}
+
+.close{
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    top:10px;
+    right: 5px;
+    opacity: 0.5;
+
+    &:hover{
+        opacity: 1;
+    }
+  }
+
+
+
