@@ -1,0 +1,23 @@
+.root {
+  display: flex;
+  justify-content: center;
+  font-size: 16px;
+  margin-bottom: 10px;
+  ul {
+    display: flex;
+    gap: 5px;
+    li {
+      padding: 20px;
+      border: 2px solid rgb(243, 120, 20);
+      border-radius: 40px;
+
+      &:hover {
+        background-color: rgb(243, 120, 20);
+        transition: 0.5s ease;
+      }
+    }
+    .active {
+      background-color: rgb(243, 120, 20);
+    }
+  }
+}

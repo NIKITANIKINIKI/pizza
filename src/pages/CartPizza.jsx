@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom'
 
 function CartPizza() {
   return (
-    <div class="content">
       <div class="container container--cart">
         <div class="cart">
           <div class="cart__top">
@@ -423,7 +422,6 @@ function CartPizza() {
           </div>
         </div>
       </div>
-    </div>
   );
 }
 
