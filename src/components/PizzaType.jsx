@@ -9,7 +9,7 @@ const menu=['Все','Мясные','Вегетарианская','Гриль',
       <ul>
         {
           menu.map((el, index)=>(
-            <li key={index} onClick={()=>props.onClickButton(index) } className={props.choice==index ? 'active': '' }>{el}</li>
+            <li key={index} onClick={()=>props.onClickButton(index) } className={props.pizzaType==index ? 'active': '' }>{el}</li>
           ))
         }
       </ul>

@@ -20,7 +20,7 @@ function PaginationBlock({ currentPage, changeCurrentPage, totalPages }) {
             <a>{el}</a>
           </li>
         ))}
-        {currentPage != totalPages && (
+        {currentPage != totalPages && pageArray.length!=0 &&  (
           <li onClick={() => changeCurrentPage(currentPage + 1)}>
             <a>&raquo;</a>
           </li>

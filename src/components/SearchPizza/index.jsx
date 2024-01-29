@@ -1,6 +1,12 @@
+import React from "react";
 import styles from "./SearchPizza.module.scss";
 
-function SearchPizza({ searchTitle, changeTitle }) {
+import {SearchContext} from '../../App'
+
+function SearchPizza() {
+
+  const { searchTitle, changeTitle } =React.useContext(SearchContext)
+
   return (
     <div className={styles.root}>
       <svg
