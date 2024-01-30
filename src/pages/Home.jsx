@@ -13,13 +13,8 @@ function Home({ searchTitle }) {
   const [endLoad, changeEndLoad] = React.useState(true);
   const [currentPage, changeCurrentPage] = React.useState(1);
   const [totalPages, changeTotalPages] = React.useState(0);
-  const [activeObj, changeActive] = React.useState({
-    id: 0,
-    name: "популярности",
-    sortEl: "rating",
-  });
 
-  const pizzaType = useSelector((state) => state.filterSlice.pizzaType);
+  const {pizzaType, activeObj} = useSelector((state) => state.filterSlice);
   const dispatch=useDispatch()
 
   React.useEffect(() => {
@@ -57,7 +52,7 @@ function Home({ searchTitle }) {
       <div className="container">
         <div className="content__top">
           <PizzaType pizzaType={pizzaType} onClickButton={(i) => dispatch(changeType(i))} />
-          <Sort activeObj={activeObj} changeActive={changeActive} />
+          <Sort activeObj={activeObj}/>
         </div>
         <h2 className="content__title">Все пиццы</h2>
         <div className="content__items">{endLoad ? skeleton : itemsPizza}</div>

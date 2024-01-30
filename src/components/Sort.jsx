@@ -1,11 +1,13 @@
 import React from "react";
+import { changeActive} from '../redux/slice/filterSlice'
+import { useDispatch } from "react-redux";
 
-function Sort({activeObj, changeActive}) {  
+function Sort({activeObj}) {  
   const [popup, popupToShow]=React.useState(false)
-  
+  const dispatch=useDispatch()
 
   const onClickItem=(index)=>{
-    changeActive(sortItems[index])
+    dispatch(changeActive(sortItems[index]))
     popupToShow(false)
   }
 
