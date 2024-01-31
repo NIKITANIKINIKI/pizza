@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {changeType} from '../redux/slice/filterSlice'
+import { changeType } from "../redux/slice/filterSlice";
+import axios from 'axios'
 
 import PizzaType from "../components/PizzaType";
 import Sort from "../components/Sort";
@@ -14,25 +15,25 @@ function Home({ searchTitle }) {
   const [currentPage, changeCurrentPage] = React.useState(1);
   const [totalPages, changeTotalPages] = React.useState(0);
 
-  const {pizzaType, activeObj} = useSelector((state) => state.filterSlice);
-  const dispatch=useDispatch()
+  const { pizzaType, activeObj } = useSelector((state) => state.filterSlice);
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     changeEndLoad(true);
-    fetch(
-      `https://6a54dec2369a2d50.mokky.dev/types?name=*${searchTitle}&page=${currentPage}&limit=${8}&${
-        pizzaType > 0 ? `category=${pizzaType}` : ""
-      }&sortBy=${activeObj.sortEl}`
-    )
-      .then((rez) => rez.json())
+    axios
+      .get(
+        `https://6a54dec2369a2d50.mokky.dev/types?name=*${searchTitle}&page=${currentPage}&limit=${8}&${
+          pizzaType > 0 ? `category=${pizzaType}` : ""
+        }&sortBy=${activeObj.sortEl}`
+      )
       .then((rez) => {
-        changeItems(rez.items);
-        changeTotalPages(rez.meta.total_pages);
+        console.log(rez)
+        changeItems(rez.data.items);
+        changeTotalPages(rez.data.meta.total_pages);
         changeEndLoad(false);
       });
     window.scrollTo(0, 0);
   }, [pizzaType, activeObj, searchTitle, currentPage]);
-
 
   const skeleton = [...new Array(8)].map((_, index) => (
     <Skeleton key={index} />
@@ -51,8 +52,11 @@ function Home({ searchTitle }) {
     <>
       <div className="container">
         <div className="content__top">
-          <PizzaType pizzaType={pizzaType} onClickButton={(i) => dispatch(changeType(i))} />
-          <Sort activeObj={activeObj}/>
+          <PizzaType
+            pizzaType={pizzaType}
+            onClickButton={(i) => dispatch(changeType(i))}
+          />
+          <Sort activeObj={activeObj} />
         </div>
         <h2 className="content__title">Все пиццы</h2>
         <div className="content__items">{endLoad ? skeleton : itemsPizza}</div>
