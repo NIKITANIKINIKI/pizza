@@ -24,7 +24,7 @@ function SearchPizza() {
   const debounce_ = React.useCallback(
     debounce((event) => {
       changeTitle(event);
-    }, 500)
+    }, 500),[]
   );
 
   return (

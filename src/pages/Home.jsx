@@ -12,10 +12,10 @@ import PaginationBlock from "../components/PaginationBlock";
 function Home({ searchTitle }) {
   const [items, changeItems] = React.useState([]);
   const [endLoad, changeEndLoad] = React.useState(true);
-  const [currentPage, changeCurrentPage] = React.useState(1);
+  // const [currentPage, changeCurrentPage] = React.useState(1);
   const [totalPages, changeTotalPages] = React.useState(0);
 
-  const { pizzaType, activeObj } = useSelector((state) => state.filterSlice);
+  const { pizzaType, activeObj, currentPage } = useSelector((state) => state.filterSlice);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -63,7 +63,6 @@ function Home({ searchTitle }) {
       </div>
       <PaginationBlock
         currentPage={currentPage}
-        changeCurrentPage={changeCurrentPage}
         totalPages={totalPages}
       />
     </>
