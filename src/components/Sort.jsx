@@ -2,6 +2,12 @@ import React from "react";
 import { changeActive} from '../redux/slice/filterSlice'
 import { useDispatch } from "react-redux";
 
+export const sortItems=[
+  {id:0,name:'популярности', sortEl:'rating'},
+  {id:1, name: 'цена', sortEl:'price'},
+  {id: 2,name: 'алфавиту', sortEl:'name'}
+]
+
 function Sort({activeObj}) {  
   const [popup, popupToShow]=React.useState(false)
   const dispatch=useDispatch()
@@ -10,12 +16,6 @@ function Sort({activeObj}) {
     dispatch(changeActive(sortItems[index]))
     popupToShow(false)
   }
-
-  const sortItems=[
-    {id:0,name:'популярности', sortEl:'rating'},
-    {id:1, name: 'цена', sortEl:'price'},
-    {id: 2,name: 'алфавиту', sortEl:'name'}
-  ]
 
   return (
     <div className="sort">

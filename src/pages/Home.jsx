@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { changeType } from "../redux/slice/filterSlice";
-import axios from 'axios'
+import { changeType, setFilters } from "../redux/slice/filterSlice";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import qs, { parse } from "qs";
 
 import PizzaType from "../components/PizzaType";
-import Sort from "../components/Sort";
+import Sort, { sortItems } from "../components/Sort";
 import Pizza from "../components/Pizza";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import PaginationBlock from "../components/PaginationBlock";
@@ -12,28 +14,61 @@ import PaginationBlock from "../components/PaginationBlock";
 function Home({ searchTitle }) {
   const [items, changeItems] = React.useState([]);
   const [endLoad, changeEndLoad] = React.useState(true);
-  // const [currentPage, changeCurrentPage] = React.useState(1);
   const [totalPages, changeTotalPages] = React.useState(0);
+  const isURL = React.useRef(false);
+  const isMounted = React.useRef(1);
 
-  const { pizzaType, activeObj, currentPage } = useSelector((state) => state.filterSlice);
+  const { pizzaType, activeObj, currentPage } = useSelector(
+    (state) => state.filterSlice
+  );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (window.location.search) {
+      const parseParams = qs.parse(window.location.search.substring(1));
+      const sort = sortItems.find((el) => el.activeObj == parseParams.sortEl);
+      dispatch(
+        setFilters({
+          ...parseParams,
+          activeObj: sort,
+        })
+      );
+      isURL.current = true;
+    }
+  }, []);
 
   React.useEffect(() => {
     changeEndLoad(true);
-    axios
-      .get(
-        `https://6a54dec2369a2d50.mokky.dev/types?name=*${searchTitle}&page=${currentPage}&limit=${8}&${
-          pizzaType > 0 ? `category=${pizzaType}` : ""
-        }&sortBy=${activeObj.sortEl}`
-      )
-      .then((rez) => {
-        console.log(rez)
-        changeItems(rez.data.items);
-        changeTotalPages(rez.data.meta.total_pages);
-        changeEndLoad(false);
-      });
-    window.scrollTo(0, 0);
+    if (!isURL.current) {
+      axios
+        .get(
+          `https://6a54dec2369a2d50.mokky.dev/types?name=*${searchTitle}&page=${currentPage}&limit=${8}&${
+            pizzaType > 0 ? `category=${pizzaType}` : ""
+          }&sortBy=${activeObj.sortEl}`
+        )
+        .then((rez) => {
+          console.log(rez);
+          changeItems(rez.data.items);
+          changeTotalPages(rez.data.meta.total_pages);
+          changeEndLoad(false);
+        });
+      window.scrollTo(0, 0);
+    }
+    isURL.current = false;
   }, [pizzaType, activeObj, searchTitle, currentPage]);
+
+  React.useEffect(() => {
+    if (isMounted.current>2) {
+      const quary = qs.stringify({
+        pizzaType,
+        activeObj: activeObj.sortEl,
+        currentPage,
+      });
+      navigate(`?${quary}`);
+    }
+    isMounted.current+=1;
+  }, [pizzaType, activeObj.sortEl, currentPage]);
 
   const skeleton = [...new Array(8)].map((_, index) => (
     <Skeleton key={index} />
@@ -61,10 +96,7 @@ function Home({ searchTitle }) {
         <h2 className="content__title">Все пиццы</h2>
         <div className="content__items">{endLoad ? skeleton : itemsPizza}</div>
       </div>
-      <PaginationBlock
-        currentPage={currentPage}
-        totalPages={totalPages}
-      />
+      <PaginationBlock currentPage={currentPage} totalPages={totalPages} />
     </>
   );
 }
