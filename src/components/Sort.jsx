@@ -1,24 +1,36 @@
 import React from "react";
-import { changeActive} from '../redux/slice/filterSlice'
+import { changeActive } from "../redux/slice/filterSlice";
 import { useDispatch } from "react-redux";
+import { useRef, useEffect } from "react";
 
-export const sortItems=[
-  {id:0,name:'популярности', sortEl:'rating'},
-  {id:1, name: 'цена', sortEl:'price'},
-  {id: 2,name: 'алфавиту', sortEl:'name'}
-]
+export const sortItems = [
+  { id: 0, name: "популярности", sortEl: "rating" },
+  { id: 1, name: "цена", sortEl: "price" },
+  { id: 2, name: "алфавиту", sortEl: "name" },
+];
 
-function Sort({activeObj}) {  
-  const [popup, popupToShow]=React.useState(false)
-  const dispatch=useDispatch()
+function Sort({ activeObj }) {
+  const [popup, popupToShow] = React.useState(false);
+  const dispatch = useDispatch();
+  const sortRef = React.useRef();
 
-  const onClickItem=(index)=>{
-    dispatch(changeActive(sortItems[index]))
-    popupToShow(false)
-  }
+  React.useEffect(() => {
+    const newListener = (event) => {
+      if (!event.composedPath().includes(sortRef.current)) {
+        popupToShow(false);
+      }
+    };
+    document.body.addEventListener("click", newListener);
+    return () => document.body.removeEventListener("click", newListener);
+  }, []);
+
+  const onClickItem = (index) => {
+    dispatch(changeActive(sortItems[index]));
+    popupToShow(false);
+  };
 
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           width="10"
@@ -33,23 +45,25 @@ function Sort({activeObj}) {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() =>popupToShow(!popup) } >{activeObj.name}</span>
+        <span onClick={() => popupToShow(!popup)}>{activeObj.name}</span>
       </div>
-      { popup && (
+      {popup && (
         <div className="sort__popup">
-        <ul>
-          {
-            sortItems.map((el, index) =>(
-              <li key={index} onClick={() => onClickItem(index)} className={activeObj.id===index ? 'active' : ''}>{el.name}</li>
-            ))
-          }
-        </ul>
-      </div>
-      )
-
-      }
+          <ul>
+            {sortItems.map((el, index) => (
+              <li
+                key={index}
+                onClick={() => onClickItem(index)}
+                className={activeObj.id === index ? "active" : ""}
+              >
+                {el.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
 
-export default Sort
+export default Sort;
