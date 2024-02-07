@@ -3,12 +3,16 @@ import {Link} from 'react-router-dom'
 import {addToCart, removeToCart, clearCart} from '../redux/slice/cartSlice'
 
 import CartItem from '../components/CartItem';
+import NotFound from './NotFound'
 
 function CartPizza() {
 
   const {items, totalPrice}=useSelector((state) => state.cartSlice)
   const dispatch=useDispatch()
 
+  if(items.length===0){
+    return (<NotFound/>)
+  }
 
   return (
       <div className="container container--cart">
