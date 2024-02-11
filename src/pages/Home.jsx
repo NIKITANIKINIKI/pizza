@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changeType, setFilters } from "../redux/slice/filterSlice";
-import {setItems} from "../redux/slice/pizzaSlice"
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import qs, { parse } from "qs";
+import {fetchItems} from '../redux/slice/pizzaSlice'
 
 import PizzaType from "../components/PizzaType";
 import Sort, { sortItems } from "../components/Sort";
@@ -15,11 +14,11 @@ import PaginationBlock from "../components/PaginationBlock";
 function Home({ searchTitle }) {
   // const [items, changeItems] = React.useState([]);
   const [endLoad, changeEndLoad] = React.useState(true);
-  const [totalPages, changeTotalPages] = React.useState(0);
+  // const [totalPages, changeTotalPages] = React.useState(0);
   const isURL = React.useRef(false);
   const isMounted = React.useRef(1);
 
-  const {items}=useSelector((state) => state.pizzaSlice)
+  const {items, totalPages}=useSelector((state) => state.pizzaSlice)
   const { pizzaType, activeObj, currentPage } = useSelector(
     (state) => state.filterSlice
   );
@@ -29,21 +28,7 @@ function Home({ searchTitle }) {
   const fetchPizza= async () =>{
     changeEndLoad(true);
     if (!isURL.current) {
-      // axios
-      //   .get(
-      //     `https://6a54dec2369a2d50.mokky.dev/types?name=*${searchTitle}&page=${currentPage}&limit=${8}&${
-      //       pizzaType > 0 ? `category=${pizzaType}` : ""
-      //     }&sortBy=${activeObj.sortEl}`
-      //   )
-      //   .then((rez) => {
-      //     console.log(rez);
-      //     changeItems(rez.data.items);
-      //     changeTotalPages(rez.data.meta.total_pages);
-      //     changeEndLoad(false);
-      //   });
-        const {data} = await axios.get(`https://6a54dec2369a2d50.mokky.dev/types?name=*${searchTitle}&page=${currentPage}&limit=${8}&${pizzaType > 0 ? `category=${pizzaType}` : ""}&sortBy=${activeObj.sortEl}`)
-        dispatch(setItems(data.items));
-        changeTotalPages(data.meta.total_pages);
+        dispatch(fetchItems({searchTitle, currentPage, pizzaType, activeObj}));
         changeEndLoad(false);
         window.scrollTo(0, 0);
     }
@@ -106,7 +91,7 @@ function Home({ searchTitle }) {
         <h2 className="content__title">Все пиццы</h2>
         <div className="content__items">{endLoad ? skeleton : itemsPizza}</div>
       </div>
-      <PaginationBlock currentPage={currentPage} totalPages={totalPages} />
+      <PaginationBlock currentPage={currentPage} totalPages={totalPages}/> 
     </>
   );
 }
