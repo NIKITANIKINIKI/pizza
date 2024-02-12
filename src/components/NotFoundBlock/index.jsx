@@ -2,16 +2,17 @@ import React from "react";
 import styles from './NotFoundBlock.module.scss'
 
 
-function NotFoundBlock() {
+
+function NotFoundBlock({title, content, picture }) {
   return (
     <div className={styles.content}>
       <h1>
-        <span>🕵</span>
+        <span>{picture}</span>
         <br />
-        Ничего не найдено
+        {title}
       </h1>
       <p>
-        Вернитесь на главную и попробуйте снова!
+        {content}
       </p>
     </div>
   );

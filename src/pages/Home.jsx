@@ -10,15 +10,13 @@ import Sort, { sortItems } from "../components/Sort";
 import Pizza from "../components/Pizza";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import PaginationBlock from "../components/PaginationBlock";
+import NotFound from "./NotFound";
 
 function Home({ searchTitle }) {
-  // const [items, changeItems] = React.useState([]);
-  const [endLoad, changeEndLoad] = React.useState(true);
-  // const [totalPages, changeTotalPages] = React.useState(0);
   const isURL = React.useRef(false);
   const isMounted = React.useRef(1);
 
-  const {items, totalPages}=useSelector((state) => state.pizzaSlice)
+  const {items, totalPages, status}=useSelector((state) => state.pizzaSlice)
   const { pizzaType, activeObj, currentPage } = useSelector(
     (state) => state.filterSlice
   );
@@ -26,10 +24,8 @@ function Home({ searchTitle }) {
   const navigate = useNavigate();
 
   const fetchPizza= async () =>{
-    changeEndLoad(true);
     if (!isURL.current) {
         dispatch(fetchItems({searchTitle, currentPage, pizzaType, activeObj}));
-        changeEndLoad(false);
         window.scrollTo(0, 0);
     }
     isURL.current = false;
@@ -89,7 +85,10 @@ function Home({ searchTitle }) {
           <Sort activeObj={activeObj} />
         </div>
         <h2 className="content__title">Все пиццы</h2>
-        <div className="content__items">{endLoad ? skeleton : itemsPizza}</div>
+        {status=='error' && (
+          <NotFound/>
+        )}
+        <div className="content__items">{status=='loading' ? skeleton : itemsPizza}</div>
       </div>
       <PaginationBlock currentPage={currentPage} totalPages={totalPages}/> 
     </>
