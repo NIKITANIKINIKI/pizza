@@ -1,12 +1,15 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/slice/cartSlice";
+import { Link } from "react-router-dom";
 
 function Pizza({ id, name, imageUrl, types, sizes, price }) {
   const [pizzaSize, changeSize] = React.useState(0);
   const [pizzaIndex, changeIndex] = React.useState(0);
 
-  const oldItem=useSelector((state) => state.cartSlice.items.find((el)=> el.id==id))
+  const oldItem = useSelector((state) =>
+    state.cartSlice.items.find((el) => el.id == id)
+  );
   const dispatch = useDispatch();
 
   const typePizza = ["тонкое", "традиционная"];
@@ -19,7 +22,7 @@ function Pizza({ id, name, imageUrl, types, sizes, price }) {
       imageUrl,
       type: typePizza[pizzaIndex],
       size: sizes[pizzaSize],
-      count:1
+      count: 1,
     };
     dispatch(addToCart(item));
   };
@@ -27,7 +30,9 @@ function Pizza({ id, name, imageUrl, types, sizes, price }) {
   return (
     <div className="pizza-block-center">
       <div className="pizza-block">
-        <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+        <Link to={"pizza/" + id}>
+          <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+        </Link>
         <h4 className="pizza-block__title">{name}</h4>
         <div className="pizza-block__selector">
           <ul>

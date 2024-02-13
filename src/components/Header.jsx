@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation  } from "react-router-dom";
 
 import Card from "./Card";
 import SearchPizza from "./SearchPizza";
 
 function Header() {
+  const {pathname}=useLocation()
   return (
     <>
       <Link to="/">
@@ -16,7 +17,10 @@ function Header() {
         </div>
       </Link>
       <SearchPizza/>
-      <Card />
+      {pathname!=='/cart' && (
+        <Card />
+      )}
+
     </>
   );
 }
