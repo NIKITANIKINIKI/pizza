@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { changeType, setFilters } from "../redux/slice/filterSlice";
 import { useNavigate } from "react-router-dom";
 import qs, { parse } from "qs";
-import {fetchItems} from '../redux/slice/pizzaSlice'
+import { fetchItems } from "../redux/slice/pizzaSlice";
 
 import PizzaType from "../components/PizzaType";
 import Sort, { sortItems } from "../components/Sort";
@@ -16,20 +16,22 @@ function Home({ searchTitle }) {
   const isURL = React.useRef(false);
   const isMounted = React.useRef(1);
 
-  const {items, totalPages, status}=useSelector((state) => state.pizzaSlice)
+  const { items, totalPages, status } = useSelector(
+    (state) => state.pizzaSlice
+  );
   const { pizzaType, activeObj, currentPage } = useSelector(
     (state) => state.filterSlice
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const fetchPizza= async () =>{
+  const fetchPizza = async () => {
     if (!isURL.current) {
-        dispatch(fetchItems({searchTitle, currentPage, pizzaType, activeObj}));
-        window.scrollTo(0, 0);
+      dispatch(fetchItems({ searchTitle, currentPage, pizzaType, activeObj }));
+      window.scrollTo(0, 0);
     }
     isURL.current = false;
-  }
+  };
 
   React.useEffect(() => {
     if (window.location.search) {
@@ -45,12 +47,12 @@ function Home({ searchTitle }) {
     }
   }, []);
 
-  React.useEffect(() =>  {
-    fetchPizza()
+  React.useEffect(() => {
+    fetchPizza();
   }, [pizzaType, activeObj, searchTitle, currentPage]);
 
   React.useEffect(() => {
-    if (isMounted.current>2) {
+    if (isMounted.current > 2) {
       const quary = qs.stringify({
         pizzaType,
         activeObj: activeObj.sortEl,
@@ -58,7 +60,7 @@ function Home({ searchTitle }) {
       });
       navigate(`?${quary}`);
     }
-    isMounted.current+=1;
+    isMounted.current += 1;
   }, [pizzaType, activeObj.sortEl, currentPage]);
 
   const skeleton = [...new Array(8)].map((_, index) => (
@@ -85,12 +87,12 @@ function Home({ searchTitle }) {
           <Sort activeObj={activeObj} />
         </div>
         <h2 className="content__title">Все пиццы</h2>
-        {status=='error' && (
-          <NotFound/>
-        )}
-        <div className="content__items">{status=='loading' ? skeleton : itemsPizza}</div>
+        {status == "error" && <NotFound />}
+        <div className="content__items">
+          {status == "loading" ? skeleton : itemsPizza}
+        </div>
       </div>
-      <PaginationBlock currentPage={currentPage} totalPages={totalPages}/> 
+      <PaginationBlock currentPage={currentPage} totalPages={totalPages} />
     </>
   );
 }

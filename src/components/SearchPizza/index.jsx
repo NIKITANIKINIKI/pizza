@@ -3,7 +3,7 @@ import styles from "./SearchPizza.module.scss";
 import { useRef, useCallback, useState } from "react";
 import debounce from "lodash.debounce";
 
-import { SearchContext } from "../../App";
+import { SearchContext } from "../../layouts/MainLayout";
 
 function SearchPizza() {
   const [searchValue, changeSearchValue] = React.useState("");
