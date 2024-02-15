@@ -5,6 +5,7 @@
     display: flex;
   }  
   &-item {
+    z-index:1;
     width: 0;
     height: 0;
     margin: 10px 0;
@@ -21,6 +22,7 @@
   }
 
   &-item:before {
+    z-index:1;
     height: 0;
     width: 0;
     position: absolute;
@@ -39,6 +41,7 @@
 
   &-item:after {
     content: "";
+    z-index:1;
     width: 0;
     height: 0;
     position: absolute;
@@ -53,5 +56,11 @@
     -moz-transform: rotate(-70deg);
     -ms-transform: rotate(-70deg);
     -o-transform: rotate(-70deg);
+  }
+
+  &-active, &-active:after, &-active:before{
+    z-index: 2;
+    color: #5c5654;
+    border-bottom: 14px solid #5c5654;
   }
 }

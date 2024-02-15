@@ -54,15 +54,17 @@ function FullPizza() {
               <span>Вернуться назад</span>
             </Link>
           </div>
-          <img width="80%" src={pizza.imageUrl} alt="pizza" />
+          <div className="pizza-block-img">
+            <img  src={pizza.imageUrl} alt="pizza" />
+          </div>
         </div>
         <div>
           <div className="star-content">
-            <div className="star-item"></div>
-            <div className="star-item"></div>
-            <div className="star-item"></div>
-            <div className="star-item"></div>
-            <div className="star-item"></div>
+            {
+              [...Array(5)].map((_, index) =>(
+                <div key={index} className={`star-item ${index<Math.round(pizza.rating/2) ? '' : 'star-active'}`}></div>
+              ))
+            }
           </div>
           <PizzaContent {...pizza} />
         </div>
