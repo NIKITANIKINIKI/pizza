@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 
 import PizzaContent from "../components/Pizza/PizzaContent";
+import PizzaComment from '../components/Pizza/PizzaComment'
 
 function FullPizza() {
   const { id } = useParams();
@@ -50,7 +51,6 @@ function FullPizza() {
                   strokeLinejoin="round"
                 />
               </svg>
-
               <span>Вернуться назад</span>
             </Link>
           </div>
@@ -58,7 +58,7 @@ function FullPizza() {
             <img  src={pizza.imageUrl} alt="pizza" />
           </div>
         </div>
-        <div>
+        <div className='pizza-block-side'>
           <div className="star-content">
             {
               [...Array(5)].map((_, index) =>(
@@ -68,6 +68,7 @@ function FullPizza() {
           </div>
           <PizzaContent {...pizza} />
         </div>
+        <PizzaComment/>
       </div>
     </>
   );
