@@ -68,7 +68,7 @@ function FullPizza() {
           </div>
           <PizzaContent {...pizza} />
         </div>
-        <PizzaComment/>
+        <PizzaComment id={pizza.id}/>
       </div>
     </>
   );

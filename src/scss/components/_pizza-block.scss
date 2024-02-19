@@ -103,15 +103,16 @@
   &-show {
     display: flex;
     justify-content: center;
-    margin-bottom: 5px;
+    margin: 5px 0;
     button {
-      background-color: #ffffff;
+      background-color: #fefafa;
       padding: 5px 10px;
       border: 1px solid rgb(218, 207, 207);
       border-radius: 5px;
+      transition: opacity 0.5s ease;
     }
     button:hover{
-      opacity: 0.7;
+      opacity: 0.6;
     }
   }
 
