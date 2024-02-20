@@ -4,10 +4,12 @@ import React from "react";
 
 function PizzaContent({ id }) {
   const dispatch = useDispatch();
-  const { comments } = useSelector((state) => state.commentsSlice);
+  const listOfcomments = useSelector((state) =>
+    state.commentsSlice.comments.find((el) => el.id == id)
+  );
   const [comment, setComment] = React.useState("");
 
-  const isComment = React.useRef(false);
+  const [stateButton, changeStateButton] = React.useState(false);
 
   const handleChange = (event) => {
     setComment(event.target.value);
@@ -20,12 +22,14 @@ function PizzaContent({ id }) {
   };
 
   const addNewComment = (id, comment) => {
-    const obj = {
-      id,
-      comments: [comment],
-    };
-    dispatch(addComment(obj));
-    isComment.current  = true;
+    if (comment.replace(/\s/g, "").length !== 0) {
+      const obj = {
+        id,
+        comments: [comment],
+      };
+      dispatch(addComment(obj));
+      changeStateButton(true);
+    }
   };
 
   return (
@@ -42,16 +46,15 @@ function PizzaContent({ id }) {
       </div>
       <div className="pizza-block-comments">
         <div className="pizza-block-show">
-          <button onClick={() => isComment.current =!isComment.current }>
-            {
-              isComment.current  ? 'Скрыть комментарии' : 'Спрятать комментарии'
-            }</button>
+          {listOfcomments && (
+            <button onClick={() => changeStateButton(!stateButton)}>
+              {stateButton ? "Спрятать комментарии" : "Показать комментарии"}
+            </button>
+          )}
         </div>
         <ul>
-          {isComment.current 
-            ? comments
-                .find((el) => el.id == id)
-                .comments.map((el) => <li>{el}</li>)
+          {stateButton
+            ? listOfcomments.comments.map((el) => <li>{el}</li>)
             : ""}
         </ul>
       </div>
